@@ -4,5 +4,8 @@
   },
   "devDependencies": {
     "vite": "^6.3.5"
-  }
+  },
+  "scripts": {
+  "build": "chmod +x node_modules/.bin/vite && vite build"
+}
 }
