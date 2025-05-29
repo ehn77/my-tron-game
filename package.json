@@ -1,11 +1,12 @@
 {
   "dependencies": {
-    "three": "^0.176.0"
+    "three": "^0.176.0",
+    "ws": "^8.18.2"
   },
   "devDependencies": {
     "vite": "^6.3.5"
   },
   "scripts": {
-  "build": "chmod +x node_modules/.bin/vite && vite build"
-}
+    "build": "chmod +x node_modules/.bin/vite && vite build"
+  }
 }
