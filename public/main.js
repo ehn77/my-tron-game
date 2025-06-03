@@ -1,7 +1,7 @@
 import * as THREE from 'https://unpkg.com/three@0.176.0/build/three.module.js';
 
 // --- WebSocket Server Connection ---
-const socket = new WebSocket('ws://localhost:5173/');
+const socket = new WebSocket('wss://my-tron-game.onrender.com');
 
 socket.onopen = () => {
     console.log('Successfully connected to the game server!');
