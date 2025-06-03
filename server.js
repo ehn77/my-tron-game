@@ -386,7 +386,7 @@ function gameLoop() {
                     disc.velX = dirX * normFactor * DISC_RETURN_SPEED;
                     disc.velY = dirY * normFactor * DISC_RETURN_SPEED;
                     disc.velZ = dirZ * normFactor * DISC_RETURN_SPEED;
-                    disc.x += disc.velX * tickaInterval; // <-- Typo here: tickaInterval
+                    disc.x += disc.velX * tickInterval; // <-- Typo here: tickaInterval
                     disc.y += disc.velY * tickInterval;
                     disc.z += disc.velZ * tickInterval;
                 } else if (targetPlayer.heldDiscId !== null || targetPlayer.isDefeated) { // Can't catch or target defeated
