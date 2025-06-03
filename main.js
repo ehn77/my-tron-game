@@ -42,14 +42,14 @@ const mouseSensitivity = 0.002;
 const cameraDistance = 7;
 
 // --- Player Textures & Materials ---
-const frontTexture = textureLoader.load('imgs/tron_guy.png');
-const backTexture = textureLoader.load('imgs/tron_guy_back.png'); // Idle back
-const leftStepTexture = textureLoader.load('imgs/left_step.png');
-const rightStepTexture = textureLoader.load('imgs/right_step.png');
-const leftTexture = textureLoader.load('imgs/move_left.png');
-const rightTexture = textureLoader.load('imgs/move_right.png');
-const frontRightTexture = textureLoader.load('imgs/front_right_step.png');
-const frontLeftTexture = textureLoader.load('imgs/front_left_step.png');
+const frontTexture = textureLoader.load('public/imgs/tron_guy.png');
+const backTexture = textureLoader.load('public/imgs/tron_guy_back.png'); // Idle back
+const leftStepTexture = textureLoader.load('public/imgs/left_step.png');
+const rightStepTexture = textureLoader.load('public/imgs/right_step.png');
+const leftTexture = textureLoader.load('public/imgs/move_left.png');
+const rightTexture = textureLoader.load('public/imgs/move_right.png');
+const frontRightTexture = textureLoader.load('public/imgs/front_right_step.png');
+const frontLeftTexture = textureLoader.load('public/imgs/front_left_step.png');
 
 const frontMaterial = new THREE.MeshBasicMaterial({ map: frontTexture, transparent: true });
 const backMaterial = new THREE.MeshBasicMaterial({ map: backTexture, transparent: true });
