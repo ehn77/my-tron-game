@@ -3,42 +3,198 @@
 
 <head>
     <meta charset="utf-8">
-    <title>TRON - ThreeJS Scene</title>
+    <title>TRON - Disc Wars</title>
     <style>
         body {
             margin: 0;
             overflow: hidden;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #000;
         }
 
-        /* Hide scrollbars */
         canvas {
             display: block;
         }
 
-        /* Remove extra space under canvas */
-        #instructions {
+        .overlay-screen {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             color: white;
             font-size: 2em;
-            font-family: sans-serif;
-            background-color: rgba(0, 0, 0, 0.7);
-            padding: 20px;
-            border-radius: 10px;
-            cursor: pointer;
+            background-color: rgba(0, 0, 0, 0.85);
+            padding: 30px 40px;
+            border-radius: 15px;
             text-align: center;
-            z-index: 10;
-            /* Make sure it's on top */
+            z-index: 1000;
+            border: 2px solid #00ffff;
+            box-shadow: 0 0 20px #00ffff, inset 0 0 15px rgba(0, 255, 255, 0.3);
+            display: none;
+            /* Initially hidden, JS will control display */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .overlay-screen h1 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            text-shadow: 0 0 10px #00ffff;
+        }
+
+        .overlay-screen p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        .overlay-screen button,
+        .play-again-button {
+            /* Shared style for buttons */
+            background-color: #00ffff;
+            color: #001a1a;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1em;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+            margin-top: 15px;
+            /* Added margin for play again buttons */
+        }
+
+        .overlay-screen button:hover,
+        .play-again-button:hover {
+            background-color: #33ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 1);
+        }
+
+        #hud {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            color: #00ffff;
+            font-family: 'Consolas', 'Lucida Console', monospace;
+            font-size: 1.1em;
+            z-index: 100;
+            background: rgba(0, 10, 20, 0.75);
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid #007777;
+            min-width: 220px;
+            display: none;
+            /* Initially hidden, shown on pointer lock */
+        }
+
+        #hud div:not(#healthBarContainer) {
+            margin-bottom: 8px;
+        }
+
+        #hud div:last-child {
+            margin-bottom: 0;
+        }
+
+        #healthBarContainer {
+            width: 180px;
+            height: 22px;
+            background-color: #440000;
+            border: 2px solid #FF6666;
+            border-radius: 7px;
+            margin-bottom: 5px;
+            overflow: hidden;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        #healthBarFill {
+            width: 100%;
+            height: 100%;
+            background-color: #00ff00;
+            border-radius: 3px;
+            transition: width 0.3s ease-out, background-color 0.3s ease-out;
+        }
+
+        #healthNumerical {
+            font-size: 0.95em;
+            color: #ffffff;
+            text-shadow: 1px 1px 2px black;
+            margin-bottom: 8px;
+        }
+
+        #gameFullMessage {
+            border-color: #ff4444;
+            box-shadow: 0 0 20px #ff4444, inset 0 0 15px rgba(255, 68, 68, 0.3);
+            color: #ffdddd;
+        }
+
+        #gameFullMessage h1 {
+            color: #ff4444;
+            text-shadow: 0 0 10px #ff0000;
+        }
+
+        #gameOverScreen {
+            /* This will serve as the "You Lost" screen */
+            border-color: #ff8800;
+            /* Orange/Red for loss */
+            box-shadow: 0 0 20px #ff8800, inset 0 0 15px rgba(255, 136, 0, 0.3);
+        }
+
+        #gameOverScreen h1 {
+            color: #ffcc88;
+            /* Lighter orange/red */
+            text-shadow: 0 0 10px #ff8800;
+        }
+
+        #winningScreen {
+            border-color: #00ff00;
+            /* Green for win */
+            box-shadow: 0 0 20px #00ff00, inset 0 0 15px rgba(0, 255, 0, 0.3);
+        }
+
+        #winningScreen h1 {
+            color: #ccffcc;
+            /* Lighter green */
+            text-shadow: 0 0 10px #00ff00;
         }
     </style>
 </head>
 
 <body>
-    <div id="instructions">
-        Click to Play!
+    <div id="instructions" class="overlay-screen" style="display: flex;">
+        <h1>Disc Wars</h1>
+        <p>Click to Play!</p>
     </div>
+
+    <div id="hud">
+        <div id="healthBarContainer">
+            <div id="healthBarFill"></div>
+        </div>
+        <div id="healthNumerical">HP: --/--</div>
+        <div id="score">Score: 0</div>
+        <div id="gameStatus">Status: Connecting...</div>
+    </div>
+
+    <div id="gameFullMessage" class="overlay-screen">
+        <h1>Game is Full!</h1>
+        <p>Maximum players reached.<br>Please try again later.</p>
+    </div>
+
+    <div id="gameOverScreen" class="overlay-screen">
+        <h1>Game Over!</h1>
+        <p id="gameOverMessage">Better luck next time, Program!</p>
+        <button id="playAgainButtonLose" class="play-again-button">Play Again?</button>
+    </div>
+
+    <div id="winningScreen" class="overlay-screen">
+        <h1>You Won!</h1>
+        <p>Congratulations, Program! You are the champion of the Games!</p>
+        <button id="playAgainButtonWin" class="play-again-button">Play Again?</button>
+    </div>
+
     <script type="module" src="/main.js"></script>
 </body>
 
