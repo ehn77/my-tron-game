@@ -35,15 +35,15 @@ let nextDiscId = 0;
 
 // Game Constants
 const TICK_RATE = 30;
-const PLAYER_SPEED_FACTOR = 0.5;
-const GRAVITY = 0.025;
-const JUMP_STRENGTH = 0.2;
+const PLAYER_SPEED_FACTOR = 0.35;
+const GRAVITY = 0.0175;
+const JUMP_STRENGTH = 0.3;
 const GROUND_Y = 0;
 
 const DISC_SPEED = 30;
 const DISC_RETURN_SPEED = 30;
 const DISC_GRAVITY = 0.02;
-const ARENA_SIZE = 10;
+const ARENA_SIZE = 20;
 const WALL_HEIGHT = 10;
 const DISC_RADIUS = 0.25;
 const MAX_THROW_DISTANCE = 30;
